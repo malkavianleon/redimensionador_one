@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redimensionador de Imagens 1280x900</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- JSZip para gerar o .zip no navegador -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Redimensionador de Imagens</h1>
+      <p>Redimensiona imagens em lote (padrão 1280 x 900) preservando as subpastas.</p>
+    </header>
+
+    <main class="app-main">
+      <section class="card">
+        <h2>Selecione a pasta</h2>
+        <p class="hint">
+          Selecione uma pasta com as imagens. A estrutura de subpastas será mantida no arquivo ZIP.
+        </p>
+
+        <label class="file-label">
+          <span>Escolher pasta de imagens</span>
+          <!-- webkitdirectory funciona em Chrome/Edge/Brave etc. -->
+          <input
+            type="file"
+            id="folderInput"
+            webkitdirectory
+            multiple
+            accept="image/*"
+          />
+        </label>
+
+        <div id="fileSummary" class="file-summary">
+          Nenhuma imagem selecionada.
+        </div>
+
+        <div class="settings">
+          <h3>Configurações de saída</h3>
+          <div class="settings-row">
+            <div class="field">
+              <label for="widthInput">Largura (px)</label>
+              <input type="number" id="widthInput" value="1280" min="1" />
+            </div>
+            <div class="field">
+              <label for="heightInput">Altura (px)</label>
+              <input type="number" id="heightInput" value="900" min="1" />
+            </div>
+          </div>
+          <p class="hint">Padrão: 1280 x 900. Altere apenas se precisar.</p>
+        </div>
+
+        <button id="processButton" class="primary-button" disabled>
+          Redimensionar e gerar ZIP
+        </button>
+
+        <div id="statusText" class="status-text"></div>
+        <div class="progress-bar-wrapper" id="progressWrapper" style="display:none;">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <a id="downloadLink" class="download-link" style="display:none;">
+          Baixar arquivo ZIP
+        </a>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Ferramenta simples para ajuste de imagens. Tudo processado localmente no navegador.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
