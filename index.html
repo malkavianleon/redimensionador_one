@@ -50,6 +50,18 @@
             </div>
           </div>
           <p class="hint">Padrão: 1280 x 900. Altere apenas se precisar.</p>
+
+          <div class="mode-options">
+            <span class="mode-title">Quando a proporção da foto for diferente:</span>
+            <label class="mode-option">
+              <input type="radio" name="resizeMode" value="cover" checked />
+              <span><strong>Preencher</strong> — ocupa o quadro todo, cortando um pouco das bordas</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="resizeMode" value="contain" />
+              <span><strong>Encaixar</strong> — mostra a foto inteira, com faixas brancas</span>
+            </label>
+          </div>
         </div>
 
         <button id="processButton" class="primary-button" disabled>

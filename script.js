@@ -157,7 +157,9 @@ function loadImage(blob) {
 }
 
 // Redimensiona uma imagem usando <canvas>
-async function resizeImage(file, targetWidth, targetHeight) {
+// mode "cover": preenche o quadro e corta o excesso (centralizado)
+// mode "contain": mostra a foto inteira, com faixas brancas
+async function resizeImage(file, targetWidth, targetHeight, mode) {
   let source = file;
 
   if (isHeic(file)) {
@@ -177,7 +179,12 @@ async function resizeImage(file, targetWidth, targetHeight) {
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, targetWidth, targetHeight);
 
-  const scale = Math.min(targetWidth / img.width, targetHeight / img.height);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  const scaleX = targetWidth / img.width;
+  const scaleY = targetHeight / img.height;
+  const scale = mode === "cover" ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
 
   const newWidth = Math.round(img.width * scale);
   const newHeight = Math.round(img.height * scale);
@@ -202,6 +209,12 @@ async function resizeImage(file, targetWidth, targetHeight) {
   });
 }
 
+function setModeInputsDisabled(disabled) {
+  document
+    .querySelectorAll('input[name="resizeMode"]')
+    .forEach((input) => (input.disabled = disabled));
+}
+
 // Garante um nome único no ZIP (ex.: foto.jpg e foto.png na mesma pasta)
 function uniqueZipPath(folderPath, baseName, usedPaths) {
   const prefix = folderPath ? folderPath + "/" : "";
@@ -221,9 +234,11 @@ processButton.addEventListener("click", async () => {
 
   const targetWidth = parseInt(widthInput.value, 10) || 1280;
   const targetHeight = parseInt(heightInput.value, 10) || 900;
+  const mode = document.querySelector('input[name="resizeMode"]:checked').value;
 
   processButton.disabled = true;
   folderInput.disabled = true;
+  setModeInputsDisabled(true);
   statusText.textContent = "Iniciando processamento...";
   progressWrapper.style.display = "block";
   progressBar.style.width = "0%";
@@ -256,7 +271,7 @@ processButton.addEventListener("click", async () => {
 
       // Uma imagem com problema não interrompe o lote inteiro
       try {
-        const resizedBlob = await resizeImage(file, targetWidth, targetHeight);
+        const resizedBlob = await resizeImage(file, targetWidth, targetHeight, mode);
         zip.file(uniqueZipPath(folderPath, baseName, usedPaths), resizedBlob);
         successCount++;
       } catch (err) {
@@ -300,5 +315,6 @@ processButton.addEventListener("click", async () => {
   } finally {
     processButton.disabled = false;
     folderInput.disabled = false;
+    setModeInputsDisabled(false);
   }
 });

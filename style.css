@@ -227,3 +227,29 @@ body {
 .report-box p + p {
   margin-top: 4px;
 }
+
+.mode-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.mode-title {
+  font-size: 0.8rem;
+  color: #546e7a;
+}
+
+.mode-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #455a64;
+  cursor: pointer;
+}
+
+.mode-option input {
+  margin-top: 3px;
+  accent-color: #1976d2;
+}
