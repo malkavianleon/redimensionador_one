@@ -210,3 +210,20 @@ body {
     flex-direction: column;
   }
 }
+
+.report-box {
+  font-size: 0.8rem;
+  color: #8a5a00;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  max-height: 180px;
+  overflow-y: auto;
+  word-break: break-all;
+}
+
+.report-box p + p {
+  margin-top: 4px;
+}
